@@ -56,6 +56,8 @@ RUN apk add --update                                    \
     # Install database drivers
     rm -f                                               \
       ${JIRA_INSTALL}/lib/mysql-connector-java*.jar &&  \
+    rm -f                                               \
+      ${JIRA_INSTALL}/atlassian-jira/WEB-INF/lib/atlassian-extras-*.*.jar &&  \
     wget -O /tmp/mysql-connector-java-${MYSQL_DRIVER_VERSION}.tar.gz                                              \
       http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-${MYSQL_DRIVER_VERSION}.tar.gz      &&  \
     tar xzf /tmp/mysql-connector-java-${MYSQL_DRIVER_VERSION}.tar.gz                                              \
@@ -107,6 +109,8 @@ RUN apk add --update                                    \
     rm -rf /var/cache/apk/*                         &&  \
     rm -rf /tmp/*                                   &&  \
     rm -rf /var/log/*
+
+COPY ./${JIRA_VERSION}/*.jar "${JIRA_INSTALL}/atlassian-jira/WEB-INF/lib/"
 
 # Image Metadata
 LABEL com.blacklabelops.application.jira.version=$JIRA_PRODUCT-$JIRA_VERSION \

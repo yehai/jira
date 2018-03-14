@@ -58,6 +58,8 @@ RUN apk add --update                                    \
       ${JIRA_INSTALL}/lib/mysql-connector-java*.jar &&  \
     rm -f                                               \
       ${JIRA_INSTALL}/atlassian-jira/WEB-INF/lib/atlassian-extras-*.*.jar &&  \
+    rm -f                                               \
+      ${JIRA_INSTALL}/atlassian-jira/WEB-INF/atlassian-bundled-plugins/atlassian-universal-plugin-manager-plugin-*.*.*.jar &&  \
     wget -O /tmp/mysql-connector-java-${MYSQL_DRIVER_VERSION}.tar.gz                                              \
       http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-${MYSQL_DRIVER_VERSION}.tar.gz      &&  \
     tar xzf /tmp/mysql-connector-java-${MYSQL_DRIVER_VERSION}.tar.gz                                              \
@@ -110,7 +112,8 @@ RUN apk add --update                                    \
     rm -rf /tmp/*                                   &&  \
     rm -rf /var/log/*
 
-COPY ./${JIRA_VERSION}/*.jar "${JIRA_INSTALL}/atlassian-jira/WEB-INF/lib/"
+COPY ./${JIRA_VERSION}/atlassian-extras-*.*.jar "${JIRA_INSTALL}/atlassian-jira/WEB-INF/lib/"
+COPY ./${JIRA_VERSION}/atlassian-universal-plugin-manager-plugin-*.*.*.jar "${JIRA_INSTALL}/atlassian-jira/WEB-INF/atlassian-bundled-plugins/"
 
 # Image Metadata
 LABEL com.blacklabelops.application.jira.version=$JIRA_PRODUCT-$JIRA_VERSION \

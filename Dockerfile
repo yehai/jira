@@ -116,7 +116,8 @@ COPY ./${JIRA_VERSION}/atlassian-extras-*.*.jar "${JIRA_INSTALL}/atlassian-jira/
 COPY ./${JIRA_VERSION}/atlassian-universal-plugin-manager-plugin-*.*.*.jar "${JIRA_INSTALL}/atlassian-jira/WEB-INF/atlassian-bundled-plugins/"
 COPY ./hipchat.phoneyou.net.crt /tmp/
 
-RUN keytool -trustcacerts -keystore $KEYSTORE -storepass changeit -noprompt -importcert -alias hipchat.phoneyou.net -file /tmp/hipchat.phoneyou.net.crt 
+# Adding letsencrypt-ca to truststore \
+RUN keytool -trustcacerts -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit -noprompt -importcert -alias hipchat.phoneyou.net -file /tmp/hipchat.phoneyou.net.crt 
 
 # Image Metadata
 LABEL com.blacklabelops.application.jira.version=$JIRA_PRODUCT-$JIRA_VERSION \
